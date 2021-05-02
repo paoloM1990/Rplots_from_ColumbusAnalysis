@@ -1,8 +1,197 @@
 ---
-title: "Untitled"
-output: html_document
+title: "Caspase3 Intensity - MG132 assay"
+output: html_notebook
 ---
 
 ```{r}
-library(tidyverse)
+
+#install.packages("readxl")
+#install.packages("imager")
+#devtools::install_bitbucket("graumannlabtools/multipanelfigure")
+
+# install.packages("BiocManager")
+# BiocManager::install("EBImage")
+
+#install.packages('readbitmap')
 ```
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(gapminder)
+library(ggthemes)
+library("readxl")
+library(tidyverse)
+library(imager)
+library("EBImage")
+library(plotly)
+```
+
+## Read the excel file
+```{r}
+Caspase3 <- read_excel("C:/Users/mdp18pm/Google Drive/Lab book/2021/APRIL 2021/14_April-23_March_Caspase3_DPRs_CorticalNeurons/Plots with R/Results_Caspase3.xlsx")
+```
+
+
+# Caspase3 Fluorescent Intensity
+
+
+## Now we plot a Grouped graph for Caspase3 fluorescent intensity levels
+```{r}
+ 
+# Grouped
+p <- Caspase3 %>% 
+      ggplot(aes(fill=Treatment, y=Fluo_Int, x=Condition)) + 
+      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   #Use always stat=summary for mean
+    labs(x = "", y = "Caspase3_Int", 
+              title = "Caspase3 levels") +
+    coord_cartesian(ylim = c(195, 230))
+    #theme(axis.text.x = element_text(angle = 0, vjust = 1, hjust=1))
+
+fig <- ggplotly(p)
+
+fig
+```
+
+## Now we plot a Grouped graph for Caspase3 fluorescent intensity levels for just REPLICATE N=1
+```{r}
+ 
+# Grouped
+p2 <- Caspase3 %>% 
+      filter(Replicate == "n1") %>%     #we only want to look at n=1
+      ggplot(aes(fill=Treatment, y=Fluo_Int, x=Condition)) + 
+        geom_bar(position="dodge", stat="identity") +
+      labs(x = "", y = "Caspase3_Int", 
+              title = "Caspase3 levels_ REPLICATE N=1") +
+      coord_cartesian(ylim = c(195, 230)) 
+      #theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
+
+fig2 <- ggplotly(p2)
+
+fig2
+```
+
+## Now we plot a Grouped graph for Caspase3 fluorescent intensity levels for just REPLICATE N=2
+```{r}
+ 
+# Grouped
+p3 <- Caspase3 %>% 
+        filter(Replicate == "n2") %>%     #we only want to look at n=1
+        ggplot(aes(fill=Treatment, y=Fluo_Int, x=Condition)) + 
+          geom_bar(position="dodge", stat="identity") +
+        labs(x = "", y = "Caspase3_Int", 
+                    title = "Caspase3 levels_ REPLICATE N=2") +
+        coord_cartesian(ylim = c(195, 230)) 
+        #theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
+
+fig3 <- ggplotly(p3)
+
+fig3
+
+```
+
+
+## Now we plot the two replicates side-by-side to facilitate our visualization
+
+```{r}
+ 
+# Grouped
+p4 <- Caspase3 %>% 
+      ggplot(aes(fill=Treatment, y=Fluo_Int, x=Condition)) + 
+      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   #Use always stat=summary for mean
+    labs(x = "", y = "Caspase3_Int", 
+              title = "Caspase3 levels_ Two replicates") +
+    coord_cartesian(ylim = c(195, 230)) +
+    facet_wrap(~Replicate) +
+    theme(axis.text.x = element_text(angle = 60))
+
+fig4 <- ggplotly(p4)
+
+fig4
+```
+
+
+
+
+# Caspase3 signal_Occupied area
+
+
+## Now we plot a Grouped graph for Caspase3 signal_Occupied area
+```{r}
+ 
+# Grouped
+p5 <- Caspase3 %>% 
+      ggplot(aes(fill=Treatment, y=Area_of_Signal, x=Condition)) + 
+        geom_bar(position="dodge", stat = "summary", fun.y = "mean") +
+      labs(x = "", y = "Caspase3_Area of signal", 
+                  title = "Caspase3 Area")  
+      #coord_cartesian(ylim = c(130, 140)) +
+      #theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
+
+fig5 <- ggplotly(p5)
+
+fig5
+```
+
+
+## Now we plot a Grouped graph for Caspase3 signal_Occupied area just for REPLICATE N=1
+
+```{r}
+ 
+# Grouped
+p6<- Caspase3 %>% 
+      filter(Replicate == "n1") %>%     #we only want to look at n=1
+      ggplot(aes(fill=Treatment, y=Area_of_Signal, x=Condition)) + 
+        geom_bar(position="dodge", stat="identity") +
+      labs(x = "", y = "Caspase3_Area of signal", 
+              title = "Caspase3 Area_ REPLICATE N=1") 
+      #coord_cartesian(ylim = c(195, 230)) 
+      #theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
+
+fig6 <- ggplotly(p6)
+
+fig6
+
+```
+
+## Now we plot a Grouped graph for Caspase3 signal_Occupied area just for REPLICATE N=2
+
+```{r}
+ 
+# Grouped
+p7<- Caspase3 %>% 
+      filter(Replicate == "n2") %>%     #we only want to look at n=1
+      ggplot(aes(fill=Treatment, y=Area_of_Signal, x=Condition)) + 
+        geom_bar(position="dodge", stat="identity") +
+      labs(x = "", y = "Caspase3_Area of signal", 
+              title = "Caspase3 Area_ REPLICATE N=2") 
+      #coord_cartesian(ylim = c(195, 230)) 
+      #theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
+
+fig7 <- ggplotly(p7)
+
+fig7
+
+```
+
+
+```{r}
+ 
+# Grouped
+p8 <- Caspase3 %>% 
+      ggplot(aes(fill=Treatment, y=Area_of_Signal, x=Condition)) + 
+        geom_bar(position="dodge", stat = "summary", fun.y = "mean") +
+      labs(x = "", y = "Caspase3_Area of signal", 
+                  title = "Caspase3 Area_ Two Replicates")  +
+      facet_wrap(~Replicate) +
+      #coord_cartesian(ylim = c(130, 140)) +
+      theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
+
+fig8 <- ggplotly(p8)
+
+fig8
+
+```
+
+
