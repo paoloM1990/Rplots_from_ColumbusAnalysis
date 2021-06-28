@@ -32,7 +32,7 @@ library(plotly)
 
 #### Read the excel file
 ```{r}
-Cathepsins <- read_excel("C:/Users/mdp18pm/Google Drive/Lab book/2021/APRIL 2021/14_April-23_March_Cathepsins_DPRs_CorticalNeurons/Plots in R/Results_Cathepsins.xlsx")
+Cathepsins <- read_excel("Results_Cathepsins.xlsx")
 ```
 
 
@@ -46,22 +46,45 @@ Cathepsins <- read_excel("C:/Users/mdp18pm/Google Drive/Lab book/2021/APRIL 2021
 
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin B") %>%
-      ggplot(aes(y=Fluo_Int, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") + 
-      geom_col(position = "identity") +
-      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
-                                   "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
-    labs(x = "", y = "Cathepsin B_Int", 
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin B_Int", 
               title = "Cathepsin B levels") +
-    coord_cartesian(ylim = c(155, 165)) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-
-fig <- ggplotly(p)
-
-fig
+      ggplotly(p)
+      
+      
 ```
+
+
+## Now we zoom into a specific Y-axis range
+```{r}
+ 
+# Grouped
+
+p <- Cathepsins %>% 
+      filter(Condition == "Cathepsin B") %>%
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin B_Int", 
+              title = "Cathepsin B levels") +
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      coord_cartesian(ylim = c(155, 165)) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+
+      ggplotly(p)
+      
+
+```
+
 
 
 
@@ -70,24 +93,24 @@ fig
 ### Now we plot a Grouped graph for only specific columns that we want for Cathepsin B fluorescent intensity levels
 ```{r}
  
-# Grouped
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin B") %>%
       filter(Treatment == "GAf" | Treatment == "GAs" | Treatment == "PAs" | Treatment == "Unt") %>% 
-      ggplot(aes(y=Fluo_Int, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin B_Int", 
+              title = "Cathepsin B levels") +
       scale_fill_manual(values = c("#003f5c", "#7a5195",    
                                    "#ef5675", "#ffa600")) +
-    labs(x = "", y = "Cathepsin B_Int", 
-              title = "Cathepsin B levels") +
-    coord_cartesian(ylim = c(155, 165)) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      coord_cartesian(ylim = c(155, 165)) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
+
 ```
 
 
@@ -98,46 +121,50 @@ fig
 ```{r}
  
 # Grouped
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin B") %>%
-      ggplot(aes(y=Area_of_Signal, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") + 
-      geom_col(position = "identity") +
-      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
-                                   "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
-    labs(x = "", y = "Cathepsin B_Area of signal", 
+      ggplot() +
+      geom_bar(aes(y=Area_of_Signal, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin B_Area of signal", 
               title = "Cathepsin B Area") +
-    #coord_cartesian(ylim = c(155, 165)) +
-    #theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
+
 ```
 
 
 ### Now we plot a Grouped graph for only specific columns that we want for Cathepsin B Area
 
 ```{r}
- # Grouped
+
+
+
+# Grouped
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin B") %>%
       filter(Treatment == "GAf" | Treatment == "GAs" | Treatment == "PAs" | Treatment == "Unt") %>% 
-      ggplot(aes(y=Area_of_Signal, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
+      ggplot() +
+      geom_bar(aes(y=Area_of_Signal, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin B_Area of signal", 
+              title = "Cathepsin B Area") +
       scale_fill_manual(values = c("#003f5c", "#7a5195",    
                                    "#ef5675", "#ffa600")) +
-    labs(x = "", y = "Cathepsin B_Area of signal", 
-              title = "Cathepsin B Area") +
-    #coord_cartesian(ylim = c(155, 165)) +
-    #theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      #coord_cartesian(ylim = c(155, 165)) +
+      #theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
+
 
 ```
 
@@ -153,51 +180,79 @@ fig
 
 ### Now we plot a Grouped graph for Cathepsin D fluorescent intensity levels
 ```{r}
- 
-# Grouped
+# Group 
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin D") %>%
-      ggplot(aes(y=Fluo_Int, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
-      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
-                                   "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
-    labs(x = "", y = "Cathepsin D_Int", 
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin D_Int", 
               title = "Cathepsin D levels") +
-    coord_cartesian(ylim = c(160, 185)) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      #coord_cartesian(ylim = c(160, 185)) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
+      
 
-fig
+
+```
+
+
+
+### Now we plot a Grouped graph for Cathepsin D fluorescent intensity levels for a specific range
+```{r}
+# Group 
+
+p <- Cathepsins %>% 
+      filter(Condition == "Cathepsin D") %>%
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin D_Int", 
+              title = "Cathepsin D levels") +
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      coord_cartesian(ylim = c(165, 185)) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+
+      ggplotly(p)
+      
+
+
 ```
 
 
 
 ## Filtered data
 
-### Now we plot a Grouped graph for only specific columns that we want for Cathepsin B fluorescent intensity levels
+### Now we plot a Grouped graph for only specific columns that we want for Cathepsin D fluorescent intensity levels
 ```{r}
  
 # Grouped
+
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin D") %>%
       filter(Treatment == "GAf" | Treatment == "GAs" | Treatment == "PAs" | Treatment == "Unt") %>% 
-      ggplot(aes(y=Fluo_Int, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin D_Int", 
+              title = "Cathepsin D levels") +
       scale_fill_manual(values = c("#003f5c", "#7a5195",    
                                    "#ef5675", "#ffa600")) +
-    labs(x = "", y = "Cathepsin D_Int", 
-              title = "Cathepsin D levels") +
-    coord_cartesian(ylim = c(160, 185)) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      #coord_cartesian(ylim = c(155, 165)) +
+      #theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
+
 ```
 
 
@@ -208,46 +263,46 @@ fig
 ```{r}
  
 # Grouped
+
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin D") %>%
-      ggplot(aes(y=Area_of_Signal, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
-      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
-                                   "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
-    labs(x = "", y = "Cathepsin D_Area of signal", 
+      ggplot() +
+      geom_bar(aes(y=Area_of_Signal, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin D_Area of signal", 
               title = "Cathepsin D Area") +
-    #coord_cartesian(ylim = c(155, 165)) +
-    #theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
 ```
 
 
-### Now we plot a Grouped graph for only specific columns that we want for Cathepsin B Area
+### Now we plot a Grouped graph for only specific columns that we want for Cathepsin D Area
 
 ```{r}
  # Grouped
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin D") %>%
       filter(Treatment == "GAf" | Treatment == "GAs" | Treatment == "PAs" | Treatment == "Unt") %>% 
-      ggplot(aes(y=Area_of_Signal, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
+      ggplot() +
+      geom_bar(aes(y=Area_of_Signal, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin D_Area of signal", 
+              title = "Cathepsin D Area") +
       scale_fill_manual(values = c("#003f5c", "#7a5195",    
                                    "#ef5675", "#ffa600")) +
-    labs(x = "", y = "Cathepsin D_Area of signal", 
-              title = "Cathepsin D Area") +
-    #coord_cartesian(ylim = c(155, 165)) +
-    #theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      #coord_cartesian(ylim = c(155, 165)) +
+      #theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
 
 ```
 
@@ -275,20 +330,20 @@ fig
 # Grouped
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin L") %>%
-      ggplot(aes(y=Fluo_Int, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
-      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
-                                   "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
-    labs(x = "", y = "Cathepsin L_Int", 
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin L_Int", 
               title = "Cathepsin L levels") +
-    coord_cartesian(ylim = c(155, 185)) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      #coord_cartesian(ylim = c(155, 185)) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
+
 ```
 
 
@@ -301,21 +356,20 @@ fig
 # Grouped
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin L") %>%
-      filter(Treatment == "GAf" | Treatment == "GAs" | Treatment == "PAs" | Treatment == "Unt") %>% 
-      ggplot(aes(y=Fluo_Int, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
-      scale_fill_manual(values = c("#003f5c", "#7a5195",    
-                                   "#ef5675", "#ffa600")) +
-    labs(x = "", y = "Cathepsin L_Int", 
+      ggplot() +
+      geom_bar(aes(y=Fluo_Int, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin L_Int", 
               title = "Cathepsin L levels") +
-    coord_cartesian(ylim = c(155, 185)) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      coord_cartesian(ylim = c(155, 180)) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
+
 ```
 
 
@@ -326,22 +380,22 @@ fig
 ```{r}
  
 # Grouped
+
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin L") %>%
-      ggplot(aes(y=Area_of_Signal, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
-      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
-                                   "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
-    labs(x = "", y = "Cathepsin L_Area of signal", 
+      ggplot() +
+      geom_bar(aes(y=Area_of_Signal, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin L_Area of signal", 
               title = "Cathepsin L Area") +
-    #coord_cartesian(ylim = c(155, 165)) +
-    #theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      scale_fill_manual(values = c("#003f5c", "#003f5c", "#7a5195", "#7a5195",   
+                                    "#ef5675", "#ef5675", "#ffa600", "#ffa600")) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
+      ggplotly(p)
 
-fig
+
 ```
 
 
@@ -352,20 +406,19 @@ fig
 p <- Cathepsins %>% 
       filter(Condition == "Cathepsin L") %>%
       filter(Treatment == "GAf" | Treatment == "GAs" | Treatment == "PAs" | Treatment == "Unt") %>% 
-      ggplot(aes(y=Area_of_Signal, x=Treatment, fill=Treatment)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   
-      geom_col(position = "identity") +
+      ggplot() +
+      geom_bar(aes(y=Area_of_Signal, x=Treatment, fill= Treatment),
+               position="dodge", stat = "summary", fun.y = "mean") + 
+      labs(x = "", y = "Cathepsin L_Area of signal", 
+              title = "Cathepsin L Area") +
       scale_fill_manual(values = c("#003f5c", "#7a5195",    
                                    "#ef5675", "#ffa600")) +
-    labs(x = "", y = "Cathepsin L_Area of signal", 
-              title = "Cathepsin L Area") +
-    #coord_cartesian(ylim = c(155, 165)) +
-    #theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
+      #coord_cartesian(ylim = c(155, 165)) +
+      #theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
 
-fig <- ggplotly(p)
-
-fig
+      ggplotly(p)
+      
 
 ```
 

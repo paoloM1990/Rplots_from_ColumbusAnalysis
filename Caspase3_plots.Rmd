@@ -3,17 +3,7 @@ title: "Caspase3 Intensity - MG132 assay"
 output: html_notebook
 ---
 
-```{r}
 
-#install.packages("readxl")
-#install.packages("imager")
-#devtools::install_bitbucket("graumannlabtools/multipanelfigure")
-
-# install.packages("BiocManager")
-# BiocManager::install("EBImage")
-
-#install.packages('readbitmap')
-```
 
 
 ```{r}
@@ -30,7 +20,7 @@ library(plotly)
 
 ## Read the excel file
 ```{r}
-Caspase3 <- read_excel("C:/Users/mdp18pm/Google Drive/Lab book/2021/APRIL 2021/14_April-23_March_Caspase3_DPRs_CorticalNeurons/Plots with R/Results_Caspase3.xlsx")
+Caspase3 <- read_excel("Results_Caspase3.xlsx")
 ```
 
 
@@ -42,8 +32,10 @@ Caspase3 <- read_excel("C:/Users/mdp18pm/Google Drive/Lab book/2021/APRIL 2021/1
  
 # Grouped
 p <- Caspase3 %>% 
-      ggplot(aes(fill=Treatment, y=Fluo_Int, x=Condition)) + 
-      geom_bar(position="dodge", stat = "summary", fun.y = "mean") +   #Use always stat=summary for mean
+      ggplot() + 
+      geom_bar(aes(fill=Treatment, y=Fluo_Int, x=Condition),
+               position="dodge", stat = "summary", fun.y = "mean") +   
+    #Use always stat=summary for mean
     labs(x = "", y = "Caspase3_Int", 
               title = "Caspase3 levels") +
     coord_cartesian(ylim = c(195, 230))
@@ -53,6 +45,18 @@ fig <- ggplotly(p)
 
 fig
 ```
+
+```{r}
+Caspase3 %>% 
+  select(Condition, Treatment, Fluo_Int) %>% 
+  group_by(Condition, Treatment) %>% 
+  summarize(Fluo_Int) %>% 
+  mutate(Mean = mean(Fluo_Int)) %>%
+  summarize(unique(Mean)) %>%
+  view()
+
+```
+
 
 ## Now we plot a Grouped graph for Caspase3 fluorescent intensity levels for just REPLICATE N=1
 ```{r}
@@ -122,8 +126,9 @@ fig4
  
 # Grouped
 p5 <- Caspase3 %>% 
-      ggplot(aes(fill=Treatment, y=Area_of_Signal, x=Condition)) + 
-        geom_bar(position="dodge", stat = "summary", fun.y = "mean") +
+      ggplot() + 
+        geom_bar(aes(fill=Treatment, y=Area_of_Signal, x=Condition),
+                 position="dodge", stat = "summary", fun.y = "mean") +
       labs(x = "", y = "Caspase3_Area of signal", 
                   title = "Caspase3 Area")  
       #coord_cartesian(ylim = c(130, 140)) +
@@ -195,3 +200,22 @@ fig8
 ```
 
 
+# Total Nuclei across 2 replicates
+
+```{r}
+ 
+# Grouped
+p8 <- Caspase3 %>% 
+      ggplot(aes(fill=Treatment, y=Total_Nuclei, x=Condition)) + 
+        geom_bar(position="dodge", stat = "summary", fun.y = "mean") +
+      labs(x = "", y = "Total number of Nuclei", 
+                  title = "Cell survival")  +
+      facet_wrap(~Replicate) +
+      #coord_cartesian(ylim = c(130, 140)) +
+      theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
+
+fig8 <- ggplotly(p8)
+
+fig8
+
+```
